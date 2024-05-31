@@ -22,6 +22,8 @@ public class Deck {
         return deck;
     }
 
+
+
     public void setDeck(ArrayList<Card> d) {
         this.deck = d;
     }

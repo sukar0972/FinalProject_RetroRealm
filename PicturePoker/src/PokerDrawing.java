@@ -20,13 +20,11 @@ public class PokerDrawing extends JPanel  {
 
 
         for (int i = 0; i < 5; i++) {
-            loadImage(d.getCard(i));
-            g2d.drawImage(card, 50*i, 50, null);
+            g2d.drawImage(d.getCard(i).getIcon(), 50*i, 50, null);
         }
 
         for (int i = 0; i < 5; i++) {
-            loadImage(d.getCard(i+5));
-            g2d.drawImage(card, 50*i, 100, null);
+            g2d.drawImage(d.getCard(i+5).getIcon(), 50*i, 100, null);
         }
     }
     public ArrayList<Card> shuffle(ArrayList<Card> deck) {
