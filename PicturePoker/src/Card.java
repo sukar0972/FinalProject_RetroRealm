@@ -1,5 +1,8 @@
+import java.awt.*;
+
 public class Card {
     private String suit;
+    private Image card;
     private boolean isFlipped;
 
     public Card(String suit) {

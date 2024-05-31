@@ -1,22 +1,43 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.*;
-public class PokerDrawing extends JPanel implements Runnable {
+public class PokerDrawing extends JPanel  {
     private final int DELAY = 15; //delay in between frames
     private int x; //x position of ball
     private int y; //y position of ball
     private Image card;
 
     public PokerDrawing() {
-        loadImage();
     }
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.RED); //set ball color
 
-        g2d.drawImage(card, 50, 50, null);
+        Deck d = new Deck();
+        d.setDeck(shuffle(d.getDeck()));
 
 
 
+        for (int i = 0; i < 5; i++) {
+            loadImage(d.getCard(i));
+            g2d.drawImage(card, 50*i, 50, null);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            loadImage(d.getCard(i+5));
+            g2d.drawImage(card, 50*i, 100, null);
+        }
+    }
+    public ArrayList<Card> shuffle(ArrayList<Card> deck) {
+        Random random = new Random(); // Create a Random object
+        for (int i = deck.size() - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1); // Get a random index from 0 to i (inclusive)
+            Card temp = deck.get(i);
+            deck.set(i, deck.get(j));
+            deck.set(j, temp);
+        }
+        return deck;
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -28,15 +49,15 @@ public class PokerDrawing extends JPanel implements Runnable {
     public void addNotify() {
         super.addNotify();
 
-        Thread animator = new Thread(this); //start a new thread
-        animator.start(); //start the run method
+        //Thread animator = new Thread(this); //start a new thread
+       // animator.start(); //start the run method
     }
 
-    private void loadImage() {
-        card = new ImageIcon("src/assets/cloudCard.png").getImage();
+    private void loadImage(Card c) {
+        card = new ImageIcon("src/assets/card"+c.getSuit()+".png").getImage();
     }
 
-    public void run() {
+    public void runl() {
         long beforeTime, timeDiff, sleep;
         int dirX =1;
         int dirY = 1;
