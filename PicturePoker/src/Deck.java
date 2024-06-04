@@ -43,11 +43,11 @@ public class Deck {
 //        deck.add(deck.get(start+3));
 //        deck.add(deck.get(start+4));
 
-        deck.remove(start);
-        deck.remove(start+1);
-        deck.remove(start+2);
-        deck.remove(start+3);
-        deck.remove(start+4);
+//        deck.remove(start);
+//        deck.remove(start+1);
+//        deck.remove(start+2);
+//        deck.remove(start+3);
+//        deck.remove(start+4);
         return s;
     }
 

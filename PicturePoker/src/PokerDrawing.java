@@ -8,32 +8,105 @@ public class PokerDrawing extends JPanel {
     private Deck d = new Deck();
     private Card[] houseHand;
     private Card[] playerHand;
+
+    private String buttonState;
     private Image background = new ImageIcon("src/assets/buttons/background.png").getImage();
+    private Image rankings = new ImageIcon("src/assets/buttons/rankings.png").getImage();
+    private Image hold = new ImageIcon("src/assets/buttons/hold.png").getImage();
+    private Image draw = new ImageIcon("src/assets/buttons/draw.png").getImage();
+
+
     private final int DELAY = 15; //delay in between frames
     public PokerDrawing() {
+        final int[] card0Dir = {1};
+        final int[] card1Dir = {1};
+        final int[] card2Dir = {1};
+        final int[] card3Dir = {1};
+        final int[] card4Dir = {1};
+
+
+        game();
+
         // Add mouse listener
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
 
-                System.out.println(x+" "+y);
+                System.out.println(x+" and "+y);
 
-                System.out.println(playerHand[0].getXpos()+" and "+playerHand[0].getYpos());
-
+                //Raise the players cards if they want to draw
                 if(x >=playerHand[0].getXpos() && x<=playerHand[0].getXpos()+32 && y>=playerHand[0].getYpos() && y<=playerHand[0].getYpos()+48) {
-                    System.out.println("d");
+                    playerHand[0].setYpos(playerHand[0].getYpos()-(10* card0Dir[0]));
+                    card0Dir[0] = card0Dir[0] * -1;
+                    buttonState = "draw";
+
+                }
+
+                if(x >=playerHand[1].getXpos() && x<=playerHand[1].getXpos()+32 && y>=playerHand[1].getYpos() && y<=playerHand[1].getYpos()+48) {
+                    playerHand[1].setYpos(playerHand[1].getYpos()-(10* card1Dir[0]));
+                    card1Dir[0] = card1Dir[0] * -1;
+                    buttonState = "draw";
+
+                }
+
+                if(x >=playerHand[2].getXpos() && x<=playerHand[2].getXpos()+32 && y>=playerHand[2].getYpos() && y<=playerHand[2].getYpos()+48) {
+                    playerHand[2].setYpos(playerHand[2].getYpos()-(10* card2Dir[0]));
+                    card2Dir[0] = card2Dir[0] * -1;
+                    buttonState = "draw";
+
+                }
+
+                if(x >=playerHand[3].getXpos() && x<=playerHand[3].getXpos()+32 && y>=playerHand[3].getYpos() && y<=playerHand[3].getYpos()+48) {
+                    playerHand[3].setYpos(playerHand[3].getYpos()-(10* card3Dir[0]));
+                    card3Dir[0] = card3Dir[0] * -1;
+                    buttonState = "draw";
+
+                }
+
+                if(x >=playerHand[4].getXpos() && x<=playerHand[4].getXpos()+32 && y>=playerHand[4].getYpos() && y<=playerHand[4].getYpos()+48) {
+                    playerHand[4].setYpos(playerHand[4].getYpos()-(10* card4Dir[0]));
+                    card4Dir[0] = card4Dir[0] * -1;
+                    buttonState = "draw";
+
+                }
+
+                if(card1Dir[0]== 1 && card2Dir[0]== 1 && card3Dir[0]== 1 && card4Dir[0]==1 && card0Dir[0] ==1) {
+                    buttonState = "hold";
+                }
+
+
+
+                if(buttonState!=null && x >=100 && x<=100+144 && y>=115 && y<=115+32)  {
+                    System.out.println("button pressed");
                 }
 
                 repaint(); // Redraw to show selection
             }
         });
-        //d.setDeck(shuffle(d.getDeck()));
-
-
-
-
     }
+
+    private int checkHand(Card[] hand) {
+
+        return 0;
+    }
+
+    private void game() {
+        d.setDeck(shuffle(d.getDeck()));
+
+
+        houseHand = d.deal(0);
+        playerHand = d.deal(5);
+
+        for (int i = 0; i < 5; i++) {
+            houseHand[i].setXpos(50 + 50 * i);
+            houseHand[i].setYpos(50);
+
+            playerHand[i].setXpos(50 + 50 * i);
+            playerHand[i].setYpos(165);
+        }
+
+        }
 
     private void doDrawing(Graphics g) {
 
@@ -42,12 +115,19 @@ public class PokerDrawing extends JPanel {
         //give the green background for the cards
         g2d.drawImage(background, 40,30, null);
 
-        for (int i = 0; i < 5; i++) {
-            houseHand[i].setXpos(50 + 50 * i);
-            houseHand[i].setYpos(50);
+        //show the card rankings
+        g2d.drawImage(rankings, 10,90, null);
 
-            playerHand[i].setXpos(50+50*i);
-            playerHand[i].setYpos(165);
+        if(buttonState!= null && buttonState.equals("hold")) {
+            g2d.drawImage(hold, 100,115,null);
+        } else if(buttonState!=null && buttonState.equals("draw")) {
+            g2d.drawImage(draw, 100,115,null);
+        } else {
+            repaint();
+        }
+
+
+        for (int i = 0; i < 5; i++) {
 
             g2d.drawImage(houseHand[i].getIcon(true), houseHand[i].getXpos() , houseHand[i].getYpos(), null);
             g2d.drawImage(playerHand[i].getIcon(false), playerHand[i].getXpos(), playerHand[i].getYpos(), null);

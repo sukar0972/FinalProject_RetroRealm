@@ -11,6 +11,7 @@ xPos of card, and yPos of card
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Card {
     private String suit;
@@ -90,6 +91,14 @@ public class Card {
         return suit;
     }
 
+    public boolean equals(Card c) {
+       return suit.equals(c.getSuit());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(suit, cardBack, cardFace, icon, xPos, yPos);
+    }
 
     @Override
     public String toString() {
