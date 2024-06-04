@@ -1,31 +1,58 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-public class PokerDrawing extends JPanel  {
+public class PokerDrawing extends JPanel {
+    private Deck d = new Deck();
+    private Card[] houseHand;
+    private Card[] playerHand;
+    private Image background = new ImageIcon("src/assets/buttons/background.png").getImage();
     private final int DELAY = 15; //delay in between frames
-    private int x; //x position of ball
-    private int y; //y position of ball
-    private Image card;
-
     public PokerDrawing() {
+        // Add mouse listener
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+
+                System.out.println(x+" "+y);
+
+                System.out.println(playerHand[0].getXpos()+" and "+playerHand[0].getYpos());
+
+                if(x >=playerHand[0].getXpos() && x<=playerHand[0].getXpos()+32 && y>=playerHand[0].getYpos() && y<=playerHand[0].getYpos()+48) {
+                    System.out.println("d");
+                }
+
+                repaint(); // Redraw to show selection
+            }
+        });
+        //d.setDeck(shuffle(d.getDeck()));
+
+
+
+
     }
+
     private void doDrawing(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.RED); //set ball color
 
-        Deck d = new Deck();
-        d.setDeck(shuffle(d.getDeck()));
-
-
+        //give the green background for the cards
+        g2d.drawImage(background, 40,30, null);
 
         for (int i = 0; i < 5; i++) {
-            g2d.drawImage(d.getCard(i).getIcon(), 50*i, 50, null);
+            houseHand[i].setXpos(50 + 50 * i);
+            houseHand[i].setYpos(50);
+
+            playerHand[i].setXpos(50+50*i);
+            playerHand[i].setYpos(165);
+
+            g2d.drawImage(houseHand[i].getIcon(true), houseHand[i].getXpos() , houseHand[i].getYpos(), null);
+            g2d.drawImage(playerHand[i].getIcon(false), playerHand[i].getXpos(), playerHand[i].getYpos(), null);
         }
 
-        for (int i = 0; i < 5; i++) {
-            g2d.drawImage(d.getCard(i+5).getIcon(), 50*i, 100, null);
-        }
     }
     public ArrayList<Card> shuffle(ArrayList<Card> deck) {
         Random random = new Random(); // Create a Random object
@@ -41,49 +68,23 @@ public class PokerDrawing extends JPanel  {
         super.paintComponent(g);
         doDrawing(g);
     }
-
-
-
     public void addNotify() {
         super.addNotify();
-
         //Thread animator = new Thread(this); //start a new thread
-       // animator.start(); //start the run method
+        //animator.start(); //start the run method
     }
 
-    private void loadImage(Card c) {
-        card = new ImageIcon("src/assets/card"+c.getSuit()+".png").getImage();
-    }
 
-    public void runl() {
+    public void run() {
         long beforeTime, timeDiff, sleep;
         int dirX =1;
         int dirY = 1;
         beforeTime = System.currentTimeMillis();
 
         while(true) {
-
-            //move ball in respective locations
-
-
-            //repaint screen so the ball actually moves
             repaint();
 
-            //x position within screen, if starts to hit the edge start moving in opposite direction
 
-            if(x >= 450) {
-                dirX = -1;
-            }
-            if(x<=0) {
-                dirX = 1;
-            }
-            //y position within screen, if starts to hit the edge start moving in opposite direction
-            if(y >= 450) {
-                dirY = -1;
-            }
-            if(y <=0) {
-                dirY = 1;
-            }
 
             //calculate how much time has passed since the last call
             //this allows smooth updates and our ball will move at a constant speed (as opposed to being dependent on processor availability)

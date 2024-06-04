@@ -1,5 +1,4 @@
 import javax.swing.JFrame;
-import java.awt.Graphics;
 import java.awt.EventQueue;
 
 
