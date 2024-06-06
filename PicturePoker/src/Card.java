@@ -19,6 +19,7 @@ public class Card {
     //constant, back of card doesnt change
     private final Image cardBack = new ImageIcon("src/assets/card.png").getImage();
     private Image cardFace;
+    private int rank;
     private Image icon;
     private int xPos;
     private int yPos;
@@ -30,9 +31,22 @@ public class Card {
      */
     public Card(String suit) {
         this.suit = suit;
-
         //add the face card image using the suit
         this.cardFace = new ImageIcon("src/assets/card" + suit + ".png").getImage();
+
+        if(suit.equals("Cloud")) {
+            rank = 1;
+        } else if(suit.equals("Mushroom")) {
+            rank = 2;
+        } else if(suit.equals("Fireflower")) {
+            rank = 3;
+        } else if(suit.equals("Luigi")) {
+            rank = 4;
+        } else if(suit.equals("Mario")) {
+            rank = 5;
+        } else if(suit.equals("Star")) {
+            rank = 6;
+        }
 
     }
 

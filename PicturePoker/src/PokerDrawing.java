@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
@@ -79,6 +80,7 @@ public class PokerDrawing extends JPanel {
 
                 if(buttonState!=null && x >=100 && x<=100+144 && y>=115 && y<=115+32)  {
                     System.out.println("button pressed");
+                    checkHand(playerHand);
                 }
 
                 repaint(); // Redraw to show selection
@@ -86,10 +88,28 @@ public class PokerDrawing extends JPanel {
         });
     }
 
-    private int checkHand(Card[] hand) {
+    private void checkHand(Card[] hand) {
 
-        return 0;
-    }
+        ArrayList<Card> matching = new ArrayList<Card>();
+
+        for (int i = 0; i < hand.length - 1; i++) {
+            for (int j = i + 1; j < hand.length; j++) {
+                if (hand[i].equals((Card) hand[j])) {
+                    System.out.println(hand[i].getSuit());
+                    matching.add(hand[i]);
+                }
+                }
+            }
+
+        for (int i = 0; i < matching.size()-1; i++) {
+            for (int j = i+1; j < matching.size(); j++) {
+                if(matching.get(i).equals((Card)matching.get(j))) {
+                    System.out.println(matching.get(i));
+                }
+            }
+        }
+
+        }
 
     private void game() {
         d.setDeck(shuffle(d.getDeck()));
